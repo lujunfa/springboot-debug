@@ -90,6 +90,7 @@ class ConfigurationPropertiesScanRegistrar implements ImportBeanDefinitionRegist
 		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
 		scanner.setEnvironment(this.environment);
 		scanner.setResourceLoader(this.resourceLoader);
+		//扫描注解了ConfigurationProperties的配置类
 		scanner.addIncludeFilter(new AnnotationTypeFilter(ConfigurationProperties.class));
 		TypeExcludeFilter typeExcludeFilter = new TypeExcludeFilter();
 		typeExcludeFilter.setBeanFactory((BeanFactory) registry);

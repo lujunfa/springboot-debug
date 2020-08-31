@@ -301,17 +301,23 @@ public class SpringApplication {
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		configureHeadlessProperty();
+		//监听器集合
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
 			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
 			configureIgnoreBeanInfo(environment);
+			//打印Springboot banner
 			Banner printedBanner = printBanner(environment);
-			context = createApplicationContext();
+			//创建应用上下文，有三种上下文1 serlvet容器， 2响应式reactor容器 3none
+ 			context = createApplicationContext();
+ 			//读取/metadata/factorties 文件找到异常报告器对应的实现类
 			exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter.class,
 					new Class[] { ConfigurableApplicationContext.class }, context);
+			//准备上下文，包括应用初始化器， 加载bean
 			prepareContext(context, environment, listeners, applicationArguments, printedBanner);
+			//刷新上下文
 			refreshContext(context);
 			afterRefresh(context, applicationArguments);
 			stopWatch.stop();
@@ -319,6 +325,7 @@ public class SpringApplication {
 				new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), stopWatch);
 			}
 			listeners.started(context);
+			//调用实现了ApplicationRunner和CommandLineRunner的对象
 			callRunners(context, applicationArguments);
 		}
 		catch (Throwable ex) {
