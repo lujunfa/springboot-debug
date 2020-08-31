@@ -1,6 +1,6 @@
 
 
-![image-20200831104852202](D:\data\spring-boot-2.3.x\doc\img\image-20200831104852202.png)
+![image-20200831104852202](https://github.com/lujunfa/springboot-debug/blob/master/doc/img/image-20200831104852202.png)
 
 springboot自动配置从**ConfigurationClassPostProcessor**这个后置处理器开始，而这个处理器会在SpringApplication类创建上下文createApplicationContext时，由**AnnotationConfigUtils**这个工具类的**registerAnnotationConfigProcessors**的方法中注册。
 
@@ -43,11 +43,11 @@ public void refresh() throws BeansException, IllegalStateException {
 		}
 ```
 
-![image-20200831114920305](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200831114920305.png)
+![image-20200831114920305](https://github.com/lujunfa/springboot-debug/blob/master/doc/img/image-20200831114920305.png)
 
 会调用SpringBoot的**AutoConfigurationImportSelector**类的**process**方法，
 
-![image-20200831115328566](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200831115328566.png)这个方法通过读取类路径/META-INF/spring.factories中键为EnableAutoConfiguration的所有的自动配置类。
+![image-20200831115328566](https://github.com/lujunfa/springboot-debug/blob/master/doc/img/image-20200831115328566.png)这个方法通过读取类路径/META-INF/spring.factories中键为EnableAutoConfiguration的所有的自动配置类。
 
 ```java
 @Override
@@ -78,13 +78,13 @@ this.reader.loadBeanDefinitions(configClasses);
 alreadyParsed.addAll(configClasses);
 ```
 
-![image-20200830121251755](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200830121251755.png)
+![image-20200830121251755](https://github.com/lujunfa/springboot-debug/blob/master/doc/img/image-20200830121251755.png)
 
-![image-20200830121740732](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200830121740732.png)
+![image-20200830121740732](https://github.com/lujunfa/springboot-debug/blob/master/doc/img/image-20200830121740732.png)
 
 从俩处加载bean信息，一处是xml等resource文件，一处是各种Bean Registrars。
 
-![image-20200830122035669](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200830122035669.png)
+![image-20200830122035669](https://github.com/lujunfa/springboot-debug/blob/master/doc/img/image-20200830122035669.png)
 
 可以看到，这里会调用Springboot定义的**ConfigurationPropertiesScanRegistrar**，然后**ConfigurationPropertiesScanRegistrar**会登记自己想要注册的路径下所有bean对象。
 
