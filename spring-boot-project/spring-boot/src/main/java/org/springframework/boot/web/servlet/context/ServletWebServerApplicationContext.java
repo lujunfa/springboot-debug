@@ -151,10 +151,14 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		}
 	}
 
+	/**
+	 * 复写AbstractApplicationContext 父类的onfresh方法，该方法会在每次refresh调用的时候触发
+	 */
 	@Override
 	protected void onRefresh() {
 		super.onRefresh();
 		try {
+			//每刷新一次上下文就重新创建一个webServer bean，并注册相关生命周期组件和初始化servlet配置信息
 			createWebServer();
 		}
 		catch (Throwable ex) {
@@ -223,9 +227,13 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	}
 
 	private void selfInitialize(ServletContext servletContext) throws ServletException {
+		//将完成加载的servletcontext绑定到根web上下文属性当中
 		prepareWebApplicationContext(servletContext);
+		//注册应用scope到beanFactory
 		registerApplicationScope(servletContext);
+		//注册web 环境需要的参数bean到指定的beanfactory，由webapplication上下文使用
 		WebApplicationContextUtils.registerEnvironmentBeans(getBeanFactory(), servletContext);
+		//迭代context初始化器，使用初始化所需的任何 servlet、过滤器、侦听器上下文参数和属性配置给定的  ServletContext
 		for (ServletContextInitializer beans : getServletContextInitializerBeans()) {
 			beans.onStartup(servletContext);
 		}
@@ -263,6 +271,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 * @param servletContext the operational servlet context
 	 */
 	protected void prepareWebApplicationContext(ServletContext servletContext) {
+		//
 		Object rootContext = servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		if (rootContext != null) {
 			if (rootContext == this) {

@@ -53,11 +53,19 @@ import org.springframework.util.ClassUtils;
  * @see ServletWebServerApplicationContext
  * @see AnnotationConfigServletWebApplicationContext
  */
+
+/**
+ * springboot web类型上下文指定类型
+ */
 public class AnnotationConfigServletWebServerApplicationContext extends ServletWebServerApplicationContext
 		implements AnnotationConfigRegistry {
 
+	//bean 读取注册器
 	private final AnnotatedBeanDefinitionReader reader;
 
+	/**
+	 * 一个 bean 定义扫描器，它检测类路径上的 bean 候选者，即注解了Component, service, Controller .使用给定的注册表（{@code BeanFactory} 或 {@code ApplicationContext}）注册相应的 bean 定义。
+	 */
 	private final ClassPathBeanDefinitionScanner scanner;
 
 	private final Set<Class<?>> annotatedClasses = new LinkedHashSet<>();

@@ -132,15 +132,21 @@ class BeanDefinitionLoader {
 
 	private int load(Object source) {
 		Assert.notNull(source, "Source must not be null");
+		//如果source是注解类，annotatedReader注册该beanInfo
 		if (source instanceof Class<?>) {
 			return load((Class<?>) source);
 		}
+		//如果source是文件类型 xmlReader读取bean 定义并加载
 		if (source instanceof Resource) {
 			return load((Resource) source);
 		}
+
+		//如果source是包类型，则scanner 直接扫描路径下的bean并注册
 		if (source instanceof Package) {
 			return load((Package) source);
 		}
+
+		//如果source是字符串表达式，需要解析该字符串成一个全路径类，然后注册该bean
 		if (source instanceof CharSequence) {
 			return load((CharSequence) source);
 		}

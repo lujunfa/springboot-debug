@@ -197,6 +197,11 @@ public class AnnotationConfigServletWebApplicationContext extends GenericWebAppl
 		super.prepareRefresh();
 	}
 
+	/**
+	 * AbstractApplicationContext中的钩子方法，留给子类实现扩展
+	 * 这里根据设置的扫描路径和注解类开始注册bean到容器中
+	 * @param beanFactory
+	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		super.postProcessBeanFactory(beanFactory);
